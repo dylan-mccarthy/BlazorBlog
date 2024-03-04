@@ -1,0 +1,105 @@
+@page "/blog/{BlogFileName}"
+@using Markdig
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+@if(!String.IsNullOrEmpty(BlogFileName))
+{
+    <PageTitle>@Title</PageTitle>
+
+    <div class="blog-header">
+        <h1 class="blog-title">@Title</h1>
+        <p class="blog-date">Posted on @Date.ToString("MMMM dd, yyyy")</p>
+    </div>
+    <div class="blog-content">@((MarkupString)@blogHtml)</div>
+}
+
+
+@code {
+    [Parameter]
+    public string BlogFileName {get; set;} = "";
+    private string markdown = "";
+
+    private string[] header = new string[0];
+
+    private string Title = "";
+
+    private DateTime Date;
+
+    private string Layout = "";
+
+    private string[] tags = new string[0];
+    private string blogHtml = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(String.IsNullOrEmpty(BlogFileName))
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        try{
+        // Load the markdown file
+            markdown = await Http.GetStringAsync($"markdown/{BlogFileName}.md");
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            NavigationManager.NavigateTo("/");
+        }
+
+        // Strip out layout, title and tags
+        var lines = markdown.Split("\n");
+        // Find first line with ---
+        var start = 0;
+        for (int i = 0; i < lines.Length; i++)
+        {
+            if (lines[i].StartsWith("---"))
+            {
+                start = i + 1;
+                break;
+            }
+        }
+
+        // Find second line with ---
+        var end = 0;
+        for (int i = start; i < lines.Length; i++)
+        {
+            if (lines[i].StartsWith("---"))
+            {
+                end = i;
+                break;
+            }
+        }
+
+        // Create new array for header
+        header = new string[end - start];
+
+        // Extract header
+        for (int i = start; i < end; i++)
+        {
+            header[i - start] = lines[i];
+        }
+
+        // Extract Layout
+        Layout = header[0].Replace("layout: ", "");
+
+        // Extract title
+        Title = header[1].Replace("title: ", "");
+
+        // Extract Date
+        Date = DateTime.Parse(header[2].Replace("date: ", ""));
+
+        // Extract tags
+        tags = header[3].Replace("tags: ", "").Split(", ");
+
+        // Remove header from markdown
+        markdown = string.Join("\n", lines, end + 1, lines.Length - end - 1);
+
+        blogHtml = Markdown.ToHtml(markdown);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+    }
+}

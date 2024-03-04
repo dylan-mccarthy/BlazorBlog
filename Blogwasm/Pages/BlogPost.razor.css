@@ -1,0 +1,23 @@
+.blog-header .blog-title {
+    min-width: 300px;
+    max-width: 1200px;
+    font-size: 3em; /* Adjust as needed */
+    text-align: center;
+    margin: 0 auto;
+}
+
+.blog-header .blog-date {
+    font-size: 0.8em; /* Adjust as needed */
+    text-align: center;
+}
+
+.blog-content {
+    min-width: 300px;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-left: 20px; /* Adjust as needed */
+}
+
+.blog-content h1 {
+    font-size: 1em; /* Adjust as needed */
+}
