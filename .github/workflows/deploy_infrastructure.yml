@@ -42,9 +42,9 @@ jobs:
 
     - name: Validate Bicep template
       run: |
-        az deployment group what-if --resource-group ${{ vars.AZURE_RESOURCE_GROUP }} --template-file ./INFRA/main.bicep --parameters location=${{ vars.LOCATION }}
+        az deployment group what-if --resource-group ${{ vars.AZURE_RESOURCE_GROUP }} --template-file ./Infra/main.bicep --parameters location=${{ vars.LOCATION }}
 
     - name: Deploy Bicep 
       if: github.event_name == 'push'
       run: |
-        az deployment group create --resource-group ${{ vars.AZURE_RESOURCE_GROUP }} --template-file ./INFRA/main.bicep --parameters location=${{ vars.LOCATION }}
+        az deployment group create --resource-group ${{ vars.AZURE_RESOURCE_GROUP }} --template-file ./Infra/main.bicep --parameters location=${{ vars.LOCATION }}
