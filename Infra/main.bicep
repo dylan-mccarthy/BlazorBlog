@@ -1,13 +1,14 @@
 param location string = resourceGroup().location
 param sku string = 'Free'
+param tier string = 'Free'
 param webAppName string
-param staticWebAppResource string
 
 module staticWebApp 'modules/staticwebapp.bicep' = {
-  name: staticWebAppResource
+  name: 'static-web-app'
   params:{
-    name: webAppName
+    webAppName: webAppName
     location: location
     sku: sku
+    tier: tier
   }
 }
