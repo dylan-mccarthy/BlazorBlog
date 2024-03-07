@@ -1,5 +1,10 @@
 [
     {
+        "name":"Azure Container Apps Dev Environment",
+        "fileName":"Azure-Container-Apps-Dev-Env",
+        "url":"/blog/Azure-Container-Apps-Dev-Env"
+    },
+    {
         "name":"DexEx Engineering",
         "fileName":"DevEx-Engineering",
         "url":"/blog/DevEx-Engineering"
