@@ -39,3 +39,4 @@ jobs:
           action: "upload"
           app_location: "Blogwasm"
           output_location: "wwwroot"
+          production_branch: "main"
