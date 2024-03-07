@@ -3,12 +3,17 @@
 }
 
 .top-row {
-    height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
+    height: 5.5rem;
+    background-color: rgb(1, 43, 82);
+    border-bottom: 1px solid #0462aa;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .navbar-brand {
     font-size: 1.1rem;
+    padding-top: inherit;
 }
 
 .bi {

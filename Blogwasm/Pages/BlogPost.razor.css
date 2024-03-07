@@ -1,9 +1,12 @@
-.blog-header .blog-title {
+.blog {
     min-width: 300px;
-    max-width: 600px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.blog-header .blog-title {
     font-size: 3em; /* Adjust as needed */
     text-align: center;
-    margin: 0 auto;
 }
 
 .blog-header .blog-date {
@@ -13,8 +16,7 @@
 
 .blog-content {
     min-width: 300px;
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 1200px;
     margin-left: 20px; /* Adjust as needed */
 }
 
