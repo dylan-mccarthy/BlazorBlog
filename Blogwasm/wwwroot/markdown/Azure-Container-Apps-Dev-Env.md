@@ -5,7 +5,7 @@ date: 2022-09-15
 categories: ["DevEx", "Blog", "Azure", "GitHub Actions"]
 ---
 
-# The Idea
+## The Idea
 So the idea behind this little project was to have the ability to create instances of an application to be used during code reviews or just to allow developers to share in-progress work.
 
 The basic flow works like this:
@@ -14,14 +14,14 @@ The basic flow works like this:
 - The URL to the application is provided within the PR comments.
 - Once the PR has been approved the application is removed from the dev environment.
 
-# Technology in use
+## Technology in use
 To accomplish this I have used the following:
 - GitHub and GitHub Actions
 - Azure Container Registry
 - Azure Container Apps
 - Azure Service Principal
 
-# What is the Azure Container Apps service
+## What is the Azure Container Apps service
 Azure Container Apps is a service that lets you deploy containerized applications into a managed environment. It is a PaaS offering that allows you to deploy your containerized application without having to worry about the underlying infrastructure.
 
 It lets you use any language or framework to write your application and offers full support for Distributed Application Runtime (Dapr) which is a framework that allows you to write microservices and distributed applications.
@@ -30,7 +30,7 @@ With its ability to scale apps to zero and billing by the second it is a great f
 
 Further details about the service can be found here: <a href="https://docs.microsoft.com/en-us/azure/container-apps/">https://docs.microsoft.com/en-us/azure/container-apps/</a>
 
-# Initial setup
+## Initial setup
 So to start with we need a few things to already be set up, an Azure subscription, Azure CLI, a Github account and an application with a dockerfile, I have used the standard Weather Forecast API example from DotNet.'
 
 First, we are going to set up a couple of variables, for this example, I will be using zsh as my shell of choice.
@@ -77,7 +77,7 @@ The details on this are provided here:
 
 <a href="https://docs.microsoft.com/en-us/azure/developer/github/connect-from-azure">https://docs.microsoft.com/en-us/azure/developer/github/connect-from-azure</a>
 
-# Creating the Pipelines and Initial Deployment
+## Creating the Pipelines and Initial Deployment
 
 Now that this is all set up I recommend creating a basic GitHub action pipeline to do the initial container app deployment. The reason for this is that container apps only run containers based on Linux x64 (linux/amd64). So the easiest way to ensure your image is all good is to define the GitHub action runner to use ubuntu-latest as its container image.
 
@@ -165,7 +165,7 @@ Pipelines should be created in the .github/workflows folder at the root of the r
 
 Running the pipeline should create the Container App inside the Container App Environment.
 
-# Creating the Pull Request Pipeline
+## Creating the Pull Request Pipeline
 
 The next step is to create the Pull Request Deployment pipeline, this will look very similar to the initial deployment pipeline. The key differences here are in the workflow trigger, the IMAGE_TAG variable and the final deploy steps where the Container App is updated instead of created and the application URL is added to the pull request comments.
 
@@ -261,7 +261,7 @@ The last step here updates the pull request with a comment that shows the URL to
 
 If the developer pushes a change to this pull request the pipeline will trigger again and update the container running inside the revision.
 
-# Cleaning up the environment
+## Cleaning up the environment
 
 Once the pull request has been merged into the main branch the environment will no longer be needed. To clean up the environment we can create a new workflow that will run when the pull request is closed.
 
@@ -303,7 +303,7 @@ jobs:
 
 This workflow will run when the pull request is closed and will deactivate the revision that was created for the pull request.
 
-# Conclusion
+## Conclusion
 
 We have looked at how to use Azure Container Apps to create a development environment for a pull request. 
 
@@ -315,11 +315,11 @@ This process is not without its drawbacks, the Azure Container Apps revisions ar
 
 Other considerations are the networking and configuration to allow for integration testing. This could be done using environment variables to specify the URLs of the dependent services but would depend on the design of the system.
 
-# Future Improvements
+## Future Improvements
 A few improvements that could be made to this project:
 - Change initial deployment into Terraform
 - Develop a multi-container example showing integration testing options
 
-# Repository for this project
+## Repository for this project
 All code for this example can be found on GitHub: 
 <a href="https://github.com/dylan-mccarthy/Azure-Container-Apps-Dev-Env-Demo">https://github.com/dylan-mccarthy/Azure-Container-Apps-Dev-Env-Demo</a>

@@ -1,6 +1,6 @@
 .blog-header .blog-title {
     min-width: 300px;
-    max-width: 1200px;
+    max-width: 600px;
     font-size: 3em; /* Adjust as needed */
     text-align: center;
     margin: 0 auto;
@@ -13,11 +13,15 @@
 
 .blog-content {
     min-width: 300px;
-    max-width: 1200px;
+    max-width: 600px;
     margin: 0 auto;
     margin-left: 20px; /* Adjust as needed */
 }
 
 .blog-content h1 {
     font-size: 1em; /* Adjust as needed */
+}
+
+.wrap-text {
+    word-wrap: break-word;
 }
