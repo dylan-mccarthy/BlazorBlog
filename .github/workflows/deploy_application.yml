@@ -38,4 +38,4 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "Blogwasm"
-          output_location: "www-root"
+          output_location: "Blogwasm/www-root"
