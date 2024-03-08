@@ -37,6 +37,14 @@ a, .btn-link {
     color: red;
 }
 
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: white;
+    background-color: black;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

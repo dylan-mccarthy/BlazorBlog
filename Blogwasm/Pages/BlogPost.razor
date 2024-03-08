@@ -17,6 +17,9 @@
 
 
 @code {
+
+    [Inject] private IJSRuntime? _js {get; set;}
+
     [Parameter]
     public string BlogFileName {get; set;} = "";
     private string markdown = "";
@@ -96,11 +99,19 @@
         // Remove header from markdown
         markdown = string.Join("\n", lines, end + 1, lines.Length - end - 1);
 
-        blogHtml = Markdown.ToHtml(markdown);
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+
+        blogHtml = Markdown.ToHtml(markdown, pipeline);
     }
 
     protected override async Task OnParametersSetAsync()
     {
         await OnInitializedAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(_js != null)
+            await _js.InvokeVoidAsync("highlightSnippet");
     }
 }

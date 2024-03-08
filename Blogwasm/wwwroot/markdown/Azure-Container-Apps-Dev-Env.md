@@ -35,7 +35,7 @@ So to start with we need a few things to already be set up, an Azure subscriptio
 
 First, we are going to set up a couple of variables, for this example, I will be using zsh as my shell of choice.
 
-```
+```bash
 resourceGroupName=rg-aca-dev-env
 location=australiaeast
 acaEnvironmentName=aca-dev-env
@@ -47,19 +47,19 @@ This should bring up a page in your default browser to log you into azure.
 
 From here we create the Resource Group that will hold the Azure Container Apps Environment
 
-```
+```bash
 az group create --name $resourceGroup --location $location
 ```
 
 Next, we create the Azure Container Registry, this will be where the application's container images are stored after they have been built.
 
-```
+```bash
 az acr create --name <unique-acr-name> --resource-group $resourceGroupName --sku Basic
 ```
 
 Before we get started with creating the Azure Container Apps elements we need to ensure that the proper extensions are installed for the Azure CLI
 
-```
+```bash
 az extension add --name containerapp --upgrade
 az provider register --namespace Microsoft.App
 az provider register --namespace Microsoft.OperationalInsights
@@ -67,7 +67,7 @@ az provider register --namespace Microsoft.OperationalInsights
 
 Now we can create the Azure Container Apps Environment
 
-```
+```bash
 az containerapp env create --name $acaEnvironmentName --resource-group $resouceGroupName --location $location
 ```
 
@@ -87,7 +87,7 @@ The first pipeline is to create the initial deployment of the application.
 
 It has two parts, the first builds and pushes the container image to the Azure Container Registry and the second deploys the container image to the Azure Container Apps Environment.
 
-```
+```yaml
 name: Initial Deployment
 
 # This workflow uses actions that are not certified by GitHub.
@@ -154,6 +154,8 @@ jobs:
             az provider register --namespace Microsoft.App
             az provider register --namespace Microsoft.OperationalInsights
             az containerapp create --name ${{ env.IMAGE_NAME }} --resource-group ${{ env.ACA_RG }} --image ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} 
+
+
 ```
 
 Once this pipeline has been added to the repository you can access it via the Actions tab on GitHub.
@@ -166,7 +168,7 @@ Running the pipeline should create the Container App inside the Container App En
 
 The next step is to create the Pull Request Deployment pipeline, this will look very similar to the initial deployment pipeline. The key differences here are in the workflow trigger, the IMAGE_TAG variable and the final deploy steps where the Container App is updated instead of created and the application URL is added to the pull request comments.
 
-```
+```yaml
 name: Pull Request Deployment
 
 # This workflow uses actions that are not certified by GitHub.
@@ -245,6 +247,7 @@ jobs:
           body: |
             Url for this PR is: https://${{ env.testurl }}
 
+
 ```
 
 With the workflow triggering on pull_request with types: ["opened", "edited", "reopened", "synchronize"] this ensures that this pipeline only triggers when pull requests are created or modified. This will now allow a developer to create a pull request and trigger the deployment.
@@ -261,7 +264,7 @@ If the developer pushes a change to this pull request the pipeline will trigger 
 
 Once the pull request has been merged into the main branch the environment will no longer be needed. To clean up the environment we can create a new workflow that will run when the pull request is closed.
 
-```
+```yaml
 
 name: Cleanup
 
